@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 
 
 from models import MeanRegressor
-with open("../models/LGBMRegressor.pkl", "rb") as f:
+with open("../models/MeanRegressor.pkl", "rb") as f:
     model = pickle.load(f)
 
 app = Flask(__name__)
