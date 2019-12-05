@@ -1,6 +1,8 @@
+import json
 import pickle
 
 import numpy as np
+import pandas as pd
 
 from flask import Flask, request, jsonify
 
@@ -8,6 +10,8 @@ from flask import Flask, request, jsonify
 from models import MeanRegressor
 with open("../models/MeanRegressor.pkl", "rb") as f:
     model = pickle.load(f)
+with open("../models/feature_sequence.txt", "r") as f:
+    feature_sequence = json.load(f)
 
 app = Flask(__name__)
 
@@ -20,7 +24,7 @@ def http_ready():
 @app.route("/predict", methods=["POST"])
 def http_predict():
     request_data = request.get_json()
-    X = np.array(request_data["data"])
+    X = pd.DataFrame(request_data["data"])[feature_sequence].values
     preds = model.predict(X)
     return jsonify({
         "predictions": preds.tolist()
