@@ -2,7 +2,7 @@ import os
 import argparse
 
 from client import Client
-from metrics import answers_enricher#, compute_metrics
+from metrics import answers_enricher, compute_metrics
 
 
 def parse_args():
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     answers_folder = tester.query()
 
     # add ground truth to the predicted data
-    _ = answers_enricher(os.path.join(answers_folder, "parsed_answers.csv"))
-    #
-    # # compute metrics
-    # _ = compute_metrics(os.path.join(answers_folder, "parsed_answers.csv"))
+    _ = answers_enricher(answers_folder)
+
+    # compute metrics
+    _ = compute_metrics(answers_folder)
