@@ -3,7 +3,7 @@ name: Quality tester
 on:
   push:
     paths:
-      - '.github/workflows/evaluate.yml'
+      - '.github/workflows/evaluate_github.yml'
       - 'src/*'
       - 'client/*'
       - 'data/*'

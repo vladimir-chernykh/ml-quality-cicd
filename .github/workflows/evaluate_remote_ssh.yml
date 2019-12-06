@@ -3,7 +3,7 @@ name: Remote quality tester
 on:
   push:
     paths:
-      - '.github/workflows/remote_evaluate.yml'
+      - '.github/workflows/evaluate_remote_ssh.yml'
       - 'src/*'
       - 'client/*'
       - 'data/*'
