@@ -1,0 +1,45 @@
+name: Remote quality tester
+
+on:
+  push:
+    paths:
+      - 'src/*'
+      - 'client/*'
+      - 'data/*'
+      - 'Makefile'
+      - 'models/*'
+    branches:
+      - master
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Send code to server
+      env:
+        EVAL_SSH_KEY: ${{ secrets.EVAL_SSH_KEY }}
+        EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}
+        EVAL_SSH_HOST: ${{ secrets.EVAL_SSH_HOST }}
+      run: |
+        echo "$EVAL_SSH_KEY" > ~/id_rsa_eval
+        chmod 400 ~/id_rsa_eval
+        cd .. && tar -cvzf code.tar.gz ml-contests-cicd && cd ml-contests-cicd
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ../code.tar.gz ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:/tmp/eval_server/${GITHUB_SHA}.tar.gz
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/ && mkdir ${GITHUB_SHA} && tar -xvzf ${GITHUB_SHA}.tar.gz --directory ${GITHUB_SHA}"
+    - name: Evaluate remotely
+      run: |
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && make evaluate"
+    - name: Copy results back
+      run: |
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd/client/reports/ && cd * && pwd" > results_path
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_id.csv .
+    - name: Metrics by file
+      run: cat metrics_by_file.csv
+#    - name: Upload artifacts to storage
+#      env:
+#        DASH_SSH_KEY: ${{ secrets.DASH_SSH_KEY }}
+#      run: |
+#        echo "$DASH_SSH_KEY" > ~/id_rsa_dash
+#        chmod 400 ~/id_rsa_dash
+#        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_dash metrics_by_file.csv ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:/home/cloud-user/shared/ai-journey-2019/scores_dir/$(git rev-parse HEAD | cut -c1-7).csv
