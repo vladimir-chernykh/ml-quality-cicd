@@ -47,10 +47,12 @@ jobs:
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_file.csv .
     - name: Metrics by file
       run: cat metrics_by_file.csv
-#    - name: Upload artifacts to storage
-#      env:
-#        DASH_SSH_KEY: ${{ secrets.DASH_SSH_KEY }}
-#      run: |
-#        echo "$DASH_SSH_KEY" > ~/id_rsa_dash
-#        chmod 400 ~/id_rsa_dash
-#        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_dash metrics_by_file.csv ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:/home/cloud-user/shared/ai-journey-2019/scores_dir/$(git rev-parse HEAD | cut -c1-7).csv
+    - name: Upload artifacts to storage
+      env:
+        DASH_SSH_KEY: ${{ secrets.DASH_SSH_KEY }}
+        DASH_SSH_USER: ${{ secrets.DASH_SSH_USER }}
+        DASH_SSH_HOST: ${{ secrets.DASH_SSH_HOST }}
+      run: |
+        echo "$DASH_SSH_KEY" > ~/id_rsa_dash
+        chmod 400 ~/id_rsa_dash
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_dash metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(${GITHUB_SHA} | cut -c1-7).csv
