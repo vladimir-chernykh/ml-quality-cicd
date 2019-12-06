@@ -22,30 +22,32 @@ jobs:
         EVAL_SSH_KEY: ${{ secrets.EVAL_SSH_KEY }}
         DASH_SSH_KEY: ${{ secrets.DASH_SSH_KEY }}
       run: |
-        echo "$EVAL_SSH_KEY" | tr -d '\r' | ssh-add - > /dev/null
-        echo "$DASH_SSH_KEY" | tr -d '\r' | ssh-add - > /dev/null
+        echo "$EVAL_SSH_KEY" > ./id_rsa_eval
+        echo "$DASH_SSH_KEY" > ./id_rsa_dash
+        chmod 400 ./id_rsa_eval
+        chmod 400 ./id_rsa_dash
     - name: Send code to server
       env:
         EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}
         EVAL_SSH_HOST: ${{ secrets.EVAL_SSH_HOST }}
       run: |
         cd .. && tar -cvzf code.tar.gz ml-contests-cicd && cd ml-contests-cicd
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "mkdir -p /tmp/eval_server/"
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ../code.tar.gz ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:/tmp/eval_server/${GITHUB_SHA}.tar.gz
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/ && mkdir ${GITHUB_SHA} && tar -xvzf ${GITHUB_SHA}.tar.gz --directory ${GITHUB_SHA}"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "mkdir -p /tmp/eval_server/"
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ../code.tar.gz ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:/tmp/eval_server/${GITHUB_SHA}.tar.gz
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/ && mkdir ${GITHUB_SHA} && tar -xvzf ${GITHUB_SHA}.tar.gz --directory ${GITHUB_SHA}"
     - name: Evaluate remotely
       env:
         EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}
         EVAL_SSH_HOST: ${{ secrets.EVAL_SSH_HOST }}
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && make evaluate"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && make evaluate"
     - name: Copy results back
       env:
         EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}
         EVAL_SSH_HOST: ${{ secrets.EVAL_SSH_HOST }}
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd/client/reports/ && cd * && pwd" > results_path
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_file.csv .
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd/client/reports/ && cd * && pwd" > results_path
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_file.csv .
     - name: Metrics by file
       run: cat metrics_by_file.csv
     - name: Upload artifacts to storage
@@ -53,4 +55,4 @@ jobs:
         DASH_SSH_USER: ${{ secrets.DASH_SSH_USER }}
         DASH_SSH_HOST: ${{ secrets.DASH_SSH_HOST }}
       run: |
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_dash metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
