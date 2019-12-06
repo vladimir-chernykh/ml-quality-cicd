@@ -44,8 +44,8 @@ evaluator:
 		--name="client-${TIMESTAMP}" \
 		${IMAGE} \
 		/bin/bash -c "cd /root/solution/client && python3 evaluator.py \
-															--folder-path ../${DATA_PATH} \
-															--url http://localhost:${PORT}"
+						--folder-path ../${DATA_PATH} \
+						--url http://localhost:${PORT}"
 
 destroy:
 	mkdir -p logs
@@ -64,6 +64,20 @@ destroy:
 destroy_all:
 	docker stop $$(docker ps -aq --filter="name=server-*")
 	docker rm $$(docker ps -aq --filter="name=server-*")
+
+start_dashboard:
+	docker run \
+		-d \
+		-v ${ABS_BASE_PATH}/dashboard:/root/solution/dashboard \
+		-p 7050:7050 \
+		--rm \
+		--name="dashboard" \
+		${IMAGE} \
+		/bin/bash -c "cd /root/solution/dashboard && python3 dashboard.py"
+
+stop_dashboard:
+	docker stop dashboard
+	docker rm dashboard
 
 build:
 	cp dockers/.dockerignore .
