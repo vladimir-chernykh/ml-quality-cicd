@@ -5,7 +5,7 @@ BASE_PATH     := .
 # path to the data
 DATA_PATH     := ./data
 
-###### END CHANGABLE ######
+####### END CHANGABLE #######
 
 ABS_BASE_PATH := $$(realpath .)/${BASE_PATH}
 IMAGE         := vovacher/ml-contests-cicd:1.0
