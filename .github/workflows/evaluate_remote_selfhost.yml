@@ -16,6 +16,8 @@ jobs:
   evaluate:
     runs-on: self-hosted
     steps:
+    - name: Clean the environment
+      run: sudo make clean
     - uses: actions/checkout@v1
     - name: Evaluation
       run: make evaluate
@@ -27,8 +29,8 @@ jobs:
         DASH_SSH_USER: ${{ secrets.DASH_SSH_USER }}
         DASH_SSH_HOST: ${{ secrets.DASH_SSH_HOST }}
       run: |
-        echo "$DASH_SSH_KEY" > ~/id_rsa_dash
-        chmod 400 ~/id_rsa_dash
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_dash client/reports/*/metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
+        echo "$DASH_SSH_KEY" > ./id_rsa_dash
+        chmod 400 ./id_rsa_dash
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_dash client/reports/*/metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
     - name: Clean the environment
       run: sudo make clean
