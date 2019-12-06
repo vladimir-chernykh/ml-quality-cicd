@@ -89,13 +89,12 @@ class Client(object):
         start_time = time.time()
         while current_wait_time < self.max_wait_time_ready:
             try:
-                response = requests.get(os.path.join(self.url, "ready"))
+                response = requests.get(os.path.join(self.url, "ready"), timeout=1)
                 if response.status_code == 200:
                     break
             except KeyboardInterrupt:
                 raise KeyboardInterrupt
             except:
-                time.sleep(1)
                 current_wait_time = time.time() - start_time
         if current_wait_time >= self.max_wait_time_ready:
             raise TimeoutError("Interrupting execution\n'/ready' endpoint is not ready " +
