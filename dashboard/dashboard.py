@@ -18,8 +18,8 @@ SCORES_DIR = "./results"
 def init_dashborad():
     os.makedirs(SCORES_DIR, exist_ok=True)
     if not os.path.exists(os.path.join(SCORES_DIR, "scores.csv")):
-        df_scores_blank = pd.DataFrame([["boston_house_prices_train", 0, np.nan],
-                                        ["boston_house_prices_val", 0, np.nan]],
+        df_scores_blank = pd.DataFrame([["boston_house_prices_train", 13.59, np.nan],
+                                        ["boston_house_prices_val", 14.28, np.nan]],
                                        columns=["file", "best", "baseline"])
         df_scores_blank.to_csv(os.path.join(SCORES_DIR, "scores.csv"), index=False)
 
