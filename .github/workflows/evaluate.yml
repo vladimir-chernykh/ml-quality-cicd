@@ -1,0 +1,22 @@
+name: Quality tester
+
+on:
+  push:
+    paths:
+      - 'src/*'
+      - 'client/*'
+      - 'data/*'
+      - 'Makefile'
+      - 'models/*'
+    branches:
+      - master
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Evaluation
+      run: make evaluate
+    - name: Metrics by file
+      run: cat client/reports/*/metrics_by_file.csv
