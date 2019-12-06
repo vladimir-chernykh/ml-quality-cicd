@@ -31,7 +31,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/ && mkdir ${GITHUB_SHA} && tar -xvzf ${GITHUB_SHA}.tar.gz --directory ${GITHUB_SHA}"
     - name: Evaluate remotely
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && make evaluate"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && sudo make evaluate"
     - name: Copy results back
       run: |
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd/client/reports/ && cd * && pwd" > results_path
