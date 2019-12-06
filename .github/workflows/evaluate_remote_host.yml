@@ -3,12 +3,12 @@ name: Remote self-hosted quality tester
 on:
   push:
     paths:
-      - ".github/workflows/evaluate_remote_host.yml"
-      - "src/*"
-      - "client/*"
-      - "data/*"
-      - "Makefile"
-      - "models/*"
+      - '.github/workflows/evaluate_remote_host.yml'
+      - 'src/*'
+      - 'client/*'
+      - 'data/*'
+      - 'Makefile'
+      - 'models/*'
     branches:
       - master
 
@@ -18,6 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Evaluation
-      run: make evaluate
+      run: sudo make evaluate
     - name: Metrics by file
       run: cat client/reports/*/metrics_by_file.csv
