@@ -1,4 +1,4 @@
-name: Remote quality tester
+name: 'Quality tester: Remote SSH machine'
 
 on:
   push:

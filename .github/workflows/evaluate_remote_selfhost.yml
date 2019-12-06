@@ -1,9 +1,9 @@
-name: Remote self-hosted quality tester
+name: 'Quality tester: Remote self-hosted machine'
 
 on:
   push:
     paths:
-      - '.github/workflows/evaluate_remote_host.yml'
+      - '.github/workflows/evaluate_remote_selfhost.yml'
       - 'src/*'
       - 'client/*'
       - 'data/*'
