@@ -14,7 +14,7 @@ TIMESTAMP     := $(shell date +%s%N | cut -b1-13)
 PORT          := 8$$(echo ${TIMESTAMP} | rev | cut -c -3 | rev)
 
 all:
-	@echo "Please specify target"
+	@echo "Please specify target!"
 
 evaluate: create evaluator destroy
 	@echo "$@ is done!"
