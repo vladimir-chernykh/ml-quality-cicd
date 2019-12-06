@@ -3,12 +3,12 @@ name: Remote self-hosted quality tester
 on:
   push:
     paths:
-      - '.github/workflows/evaluate_remote_host.yml'
-      - 'src/*'
-      - 'client/*'
-      - 'data/*'
-      - 'Makefile'
-      - 'models/*'
+      - ".github/workflows/evaluate_remote_host.yml"
+      - "src/*"
+      - "client/*"
+      - "data/*"
+      - "Makefile"
+      - "models/*"
     branches:
       - master
 
