@@ -40,7 +40,7 @@ jobs:
         EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}
         EVAL_SSH_HOST: ${{ secrets.EVAL_SSH_HOST }}
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && sudo make evaluate"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd && make evaluate"
     - name: Copy results back
       env:
         EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}

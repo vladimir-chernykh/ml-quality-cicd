@@ -18,6 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Evaluation
-      run: sudo make evaluate
+      run: make evaluate
     - name: Metrics by file
       run: cat client/reports/*/metrics_by_file.csv
