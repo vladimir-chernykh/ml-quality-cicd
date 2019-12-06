@@ -44,7 +44,7 @@ jobs:
         EVAL_SSH_HOST: ${{ secrets.EVAL_SSH_HOST }}
       run: |
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/${GITHUB_SHA}/ml-contests-cicd/client/reports/ && cd * && pwd" > results_path
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_id.csv .
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_file.csv .
     - name: Metrics by file
       run: cat metrics_by_file.csv
 #    - name: Upload artifacts to storage
