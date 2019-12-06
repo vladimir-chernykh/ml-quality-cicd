@@ -29,4 +29,6 @@ jobs:
       run: |
         echo "$DASH_SSH_KEY" > ~/id_rsa_dash
         chmod 400 ~/id_rsa_dash
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_dash metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_dash client/reports/*/metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-contests-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
+    - name: Clean the environment
+      run: sudo make clean

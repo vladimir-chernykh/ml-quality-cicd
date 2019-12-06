@@ -65,6 +65,12 @@ destroy_all:
 	docker stop $$(docker ps -aq --filter="name=server-*")
 	docker rm $$(docker ps -aq --filter="name=server-*")
 
+clean:
+	rm -rf client/reports/
+	rm -rf client/__pycache__
+	rm -rf src/__pycache__
+	rm -rf logs
+
 start_dashboard:
 	docker run \
 		-d \
