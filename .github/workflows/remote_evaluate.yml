@@ -3,6 +3,7 @@ name: Remote quality tester
 on:
   push:
     paths:
+      - '.github/workflows/remote_evaluate.yml'
       - 'src/*'
       - 'client/*'
       - 'data/*'
@@ -25,6 +26,7 @@ jobs:
         echo "$EVAL_SSH_KEY" > ~/id_rsa_eval
         chmod 400 ~/id_rsa_eval
         cd .. && tar -cvzf code.tar.gz ml-contests-cicd && cd ml-contests-cicd
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "mkdir -p /tmp/eval_server/"
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ../code.tar.gz ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:/tmp/eval_server/${GITHUB_SHA}.tar.gz
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST} "cd /tmp/eval_server/ && mkdir ${GITHUB_SHA} && tar -xvzf ${GITHUB_SHA}.tar.gz --directory ${GITHUB_SHA}"
     - name: Evaluate remotely
