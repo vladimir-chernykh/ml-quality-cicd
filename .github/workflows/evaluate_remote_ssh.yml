@@ -55,4 +55,5 @@ jobs:
         DASH_SSH_USER: ${{ secrets.DASH_SSH_USER }}
         DASH_SSH_HOST: ${{ secrets.DASH_SSH_HOST }}
       run: |
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_dash ${DASH_SSH_USER}@${DASH_SSH_HOST} "mkdir -p /home/ubuntu/ml-quality-cicd/results"
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_dash metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-quality-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
