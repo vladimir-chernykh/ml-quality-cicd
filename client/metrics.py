@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 import pandas as pd
 
 
@@ -37,6 +38,7 @@ def compute_metrics(folder):
     parsed_answers.to_csv(path, index=False)
 
     metrics_by_file = parsed_answers.groupby("path")[["mae", "mse", "mape"]].mean()
-    metrics_by_file.to_csv(os.path.join(folder, "metrics_by_file.csv"))
+    metrics_by_file["rmse"] = np.sqrt(metrics_by_file["mse"])
+    metrics_by_file[["rmse", "mae", "mape"]].to_csv(os.path.join(folder, "metrics_by_file.csv"))
 
     return parsed_answers
