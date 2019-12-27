@@ -29,7 +29,7 @@ create:
 		-v ${ABS_BASE_PATH}/src:/root/solution/src \
 		-v ${ABS_BASE_PATH}/models:/root/solution/models \
 		-p ${PORT}:8000 \
-		--memory="1g" \
+		--memory="200m" \
 		--cpus=$${CPUS_LIMIT} \
 		--name="server-${TIMESTAMP}" \
 		${IMAGE} \
