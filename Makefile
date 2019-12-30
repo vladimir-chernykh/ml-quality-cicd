@@ -1,7 +1,5 @@
 ###### START CHANGABLE ######
 
-# path to the code
-BASE_PATH     := .
 # path to the data
 DATA_PATH     := ./data
 # path to the artifacts storage for dashboard
@@ -9,7 +7,7 @@ DASHBOARD_SCORES_DIR := ./results
 
 ####### END CHANGABLE #######
 
-ABS_BASE_PATH := $$(realpath .)/${BASE_PATH}
+ABS_BASE_PATH := $$(realpath .)
 IMAGE         := vovacher/ml-contests-cicd:1.0
 
 TIMESTAMP     := $(shell date +%s%N | cut -b1-13)
@@ -40,7 +38,7 @@ create:
 evaluator:
 	docker run \
 		-v ${ABS_BASE_PATH}/client:/root/solution/client \
-		-v ${ABS_BASE_PATH}/data:/root/solution/data \
+		-v ${ABS_BASE_PATH}/${DATA_PATH}:/root/solution/data \
 		--rm \
 		--net="host" \
 		--name="client-${TIMESTAMP}" \
