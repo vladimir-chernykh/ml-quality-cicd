@@ -12,7 +12,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-SCORES_DIR = "./results"
+
+SCORES_DIR = os.getenv("DASHBOARD_SCORES_DIR", "./results")
 
 
 def init_dashborad():
@@ -75,7 +76,6 @@ def generate_table():
     df = pd.concat([df_scores] + list(df_list)[-5:], axis=1).round(2)
 
     body = []
-    print(df)
     for i in range(len(df)):
         row = []
         style = cell_style(df.iloc[i][df.columns[-1]], df.iloc[i]["baseline"])
