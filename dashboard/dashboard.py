@@ -18,9 +18,9 @@ SCORES_DIR = "./results"
 def init_dashborad():
     os.makedirs(SCORES_DIR, exist_ok=True)
     if not os.path.exists(os.path.join(SCORES_DIR, "scores.csv")):
-        df_scores_blank = pd.DataFrame([["boston_house_prices_train", 13.59, np.nan],
-                                        ["boston_house_prices_val", 14.28, np.nan]],
-                                       columns=["file", "best", "baseline"])
+        df_scores_blank = pd.DataFrame([["boston_house_prices_train", 6.303904029016756],
+                                        ["boston_house_prices_val", 7.554702970297035]],
+                                       columns=["file", "baseline"])
         df_scores_blank.to_csv(os.path.join(SCORES_DIR, "scores.csv"), index=False)
 
 
@@ -28,7 +28,7 @@ init_dashborad()
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
-df_scores = pd.read_csv(os.path.join(SCORES_DIR, "scores.csv"))[["file", "best", "baseline"]]
+df_scores = pd.read_csv(os.path.join(SCORES_DIR, "scores.csv"))[["file", "baseline"]]
 
 df_list = []
 full_model_list = []
@@ -57,7 +57,7 @@ def update_table(lock):
 
 
 def cell_style(value, threshold_value):
-    if value >= threshold_value:
+    if value <= threshold_value:
         style = {
             "backgroundColor": "#e6ffef",
         }
@@ -75,12 +75,10 @@ def generate_table():
     df = pd.concat([df_scores] + list(df_list)[-5:], axis=1).round(2)
 
     body = []
+    print(df)
     for i in range(len(df)):
         row = []
-        if i < len(df) - 2:
-            style = cell_style(df.iloc[i][df.columns[-1]], df.iloc[i]["baseline"])
-        else:
-            style = {}
+        style = cell_style(df.iloc[i][df.columns[-1]], df.iloc[i]["baseline"])
         for col in df.columns:
             if col == "file":
                 val = html.Td(dcc.Link(df.iloc[i][col], href=f"/graph/{df.iloc[i]['file']}"), style=style)
@@ -124,12 +122,6 @@ def serve_graph_layout(default="boston_house_prices_val"):
                         },
                         {
                             "x": xaxisrange,
-                            "y": [df_scores[df_scores["file"] == default].iloc[0]["best"]] * len(xaxisrange),
-                            "mode": "lines",
-                            "name": "Best score"
-                        },
-                        {
-                            "x": xaxisrange,
                             "y": [df_scores[df_scores["file"] == default].iloc[0]["baseline"]] * len(xaxisrange),
                             "mode": "lines",
                             "name": "Baseline score"
@@ -144,7 +136,7 @@ def serve_graph_layout(default="boston_house_prices_val"):
                                "tickvals": list(range(1, len(df.loc[default]) + 1)),
                                "tickangle": -90,
                                "automargin": True},
-                        yaxis={"title": "Metric"}
+                        yaxis={"title": "MAE"}
                     )
                 },
                 style={"height": "80vh"}
@@ -190,12 +182,6 @@ def update_graph(value):
                     },
                     {
                         "x": xaxisrange,
-                        "y": [df_scores[df_scores["file"] == value].iloc[0]["best"]] * len(xaxisrange),
-                        "mode": "lines",
-                        "name": "Best score"
-                    },
-                    {
-                        "x": xaxisrange,
                         "y": [df_scores[df_scores["file"] == value].iloc[0]["baseline"]] * len(xaxisrange),
                         "mode": "lines",
                         "name": "Baseline score"
@@ -210,7 +196,7 @@ def update_graph(value):
                            "tickvals": list(range(1, len(df.loc[value]) + 1)),
                            "tickangle": -90,
                            "automargin": True},
-                    yaxis={"title": "Metric"}
+                    yaxis={"title": "MAE"}
                 )
             }
 
