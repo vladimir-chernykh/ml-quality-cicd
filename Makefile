@@ -4,6 +4,8 @@
 BASE_PATH     := .
 # path to the data
 DATA_PATH     := ./data
+# path to the artifacts storage for dashboard
+DASHBOARD_SCORES_DIR := ./results
 
 ####### END CHANGABLE #######
 
@@ -75,15 +77,15 @@ start_dashboard:
 	docker run \
 		-d \
 		-v ${ABS_BASE_PATH}/dashboard:/root/solution/dashboard \
+		-v ${ABS_BASE_PATH}/${DASHBOARD_SCORES_DIR}:/root/solution/results \
 		-p 7050:7050 \
 		--rm \
 		--name="dashboard" \
 		${IMAGE} \
-		/bin/bash -c "cd /root/solution/dashboard && python3 dashboard.py"
+		/bin/bash -c "cd /root/solution/dashboard && DASHBOARD_SCORES_DIR=../results python3 dashboard.py"
 
 stop_dashboard:
 	docker stop dashboard
-	docker rm dashboard
 
 build:
 	cp dockers/.dockerignore .
