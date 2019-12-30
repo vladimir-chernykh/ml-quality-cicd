@@ -15,21 +15,11 @@ from dash.dependencies import Input, Output
 
 SCORES_DIR = os.getenv("DASHBOARD_SCORES_DIR", "./results")
 
-
-def init_dashborad():
-    os.makedirs(SCORES_DIR, exist_ok=True)
-    if not os.path.exists(os.path.join(SCORES_DIR, "scores.csv")):
-        df_scores_blank = pd.DataFrame([["boston_house_prices_train", 6.303904029016756],
-                                        ["boston_house_prices_val", 7.554702970297035]],
-                                       columns=["file", "baseline"])
-        df_scores_blank.to_csv(os.path.join(SCORES_DIR, "scores.csv"), index=False)
-
-
-init_dashborad()
-
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
-df_scores = pd.read_csv(os.path.join(SCORES_DIR, "scores.csv"))[["file", "baseline"]]
+df_scores = pd.DataFrame([["boston_house_prices_train", 6.303904029016756],
+                          ["boston_house_prices_val", 7.554702970297035]],
+                         columns=["file", "baseline"])
 
 df_list = []
 full_model_list = []
