@@ -20,12 +20,9 @@ jobs:
     - name: Init ssh credentials
       env:
         EVAL_SSH_KEY: ${{ secrets.EVAL_SSH_KEY }}
-        DASH_SSH_KEY: ${{ secrets.DASH_SSH_KEY }}
       run: |
         echo "$EVAL_SSH_KEY" > ./id_rsa_eval
-        echo "$DASH_SSH_KEY" > ./id_rsa_dash
         chmod 400 ./id_rsa_eval
-        chmod 400 ./id_rsa_dash
     - name: Send code to server
       env:
         EVAL_SSH_USER: ${{ secrets.EVAL_SSH_USER }}
@@ -50,10 +47,3 @@ jobs:
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_eval ${EVAL_SSH_USER}@${EVAL_SSH_HOST}:$(cat results_path)/metrics_by_file.csv .
     - name: Metrics by file
       run: cat metrics_by_file.csv
-    - name: Upload artifacts to storage
-      env:
-        DASH_SSH_USER: ${{ secrets.DASH_SSH_USER }}
-        DASH_SSH_HOST: ${{ secrets.DASH_SSH_HOST }}
-      run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_dash ${DASH_SSH_USER}@${DASH_SSH_HOST} "mkdir -p /home/ubuntu/ml-quality-cicd/results"
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa_dash metrics_by_file.csv ${DASH_SSH_USER}@${DASH_SSH_HOST}:/home/ubuntu/ml-quality-cicd/results/$(echo ${GITHUB_SHA} | cut -c1-7).csv
