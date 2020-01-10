@@ -6,8 +6,8 @@ import pandas as pd
 from flask import Flask, request, jsonify
 
 
-from models import MeanRegressor
-with open("../models/MeanRegressor.pkl", "rb") as f:
+from models import MeanRegressor, RandomRegressor
+with open("../models/RandomRegressor.pkl", "rb") as f:
     model = pickle.load(f)
 with open("../models/feature_sequence.txt", "r") as f:
     feature_sequence = json.load(f)
