@@ -17,7 +17,7 @@ All interaction with the system is done via [Makefile](./Makefile). Thus one sho
 Instructions for Ubuntu and OSX are below. For Windows, the system might also work but is not tested and I can not guarantee it.
 
 * **Ubuntu**
-  * Install `make` command-line tool
+  * Install make command-line tool
   ```sh
   apt-get update
   apt-get install build-essential
