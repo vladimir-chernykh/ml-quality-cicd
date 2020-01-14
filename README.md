@@ -7,3 +7,32 @@ There is a **[blog post](https://medium.com/@vovacher/continuous-quality-evaluat
 This README contains:
 * Technical details to make the launch easier
 * High-level overview of the structure
+
+## Launch
+
+The system is tested on Ubuntu 18.04 and Mac OSX 10.15.2.
+
+All interaction with the system is done via [Makefile](./Makefile). Thus one should have `make` installed. All the code is run using [Docker containers](https://www.docker.com) which should be installed on the host machine.
+
+Instructions for Ubuntu and OSX are below. For Windows, the system might also work but is not tested and I can not guarantee it.
+
+* **Ubuntu**
+  * Install `make` command-line tool
+
+  ```sh
+  apt-get update
+  apt-get install build-essential
+  ```
+
+  * Setup Docker
+  
+    The most recent installation instructions for Ubuntu can be found [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/). For the convenience purposes I would also recommend to enable docker management for non-root users (see [here](https://docs.docker.com/install/linux/linux-postinstall/)). Be careful because it can lead to possible security issues.
+
+* **Mac OS X**
+  * Install `make` command-line tool
+  
+    It is shipped in the set of command-line tools for XCode (see instructions [here](https://stackoverflow.com/a/11494872/7196628)).
+
+  * Setup Docker
+  
+    The most recent installation instructions for Mac OS X can be found [here](https://docs.docker.com/docker-for-mac/install/).
