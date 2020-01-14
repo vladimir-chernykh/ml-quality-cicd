@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify
 
 
 from models import MeanRegressor, RandomRegressor
-with open("../models/LinearRegressor.pkl", "rb") as f:
+with open("../models/MeanRegressor.pkl", "rb") as f:
     model = pickle.load(f)
 with open("../models/feature_sequence.txt", "r") as f:
     feature_sequence = json.load(f)
