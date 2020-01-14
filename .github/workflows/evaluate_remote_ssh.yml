@@ -9,8 +9,6 @@ on:
       - 'data/*'
       - 'Makefile'
       - 'models/*'
-    branches:
-      - master
 
 jobs:
   evaluate:
