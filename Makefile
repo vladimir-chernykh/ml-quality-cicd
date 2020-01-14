@@ -44,7 +44,7 @@ evaluator:
 		--name="client-${TIMESTAMP}" \
 		${IMAGE} \
 		/bin/bash -c "cd /root/solution/client && python3 evaluator.py \
-						--folder-path ../${DATA_PATH} \
+						--folder-path ../data \
 						--url http://localhost:${PORT}"
 
 destroy:
