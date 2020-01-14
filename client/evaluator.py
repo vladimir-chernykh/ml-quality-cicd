@@ -1,4 +1,3 @@
-import os
 import argparse
 
 from client import Client
@@ -18,7 +17,7 @@ def parse_args():
                         required=True)
 
     parser.add_argument("--reports-path",
-                        help="Path to the folder with reports.",
+                        help="Path to the folder where to save reports.",
                         default="./reports")
 
     return parser.parse_args()
