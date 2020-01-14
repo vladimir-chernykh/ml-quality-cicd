@@ -2,6 +2,7 @@ import numpy as np
 
 
 class MeanRegressor(object):
+    """ Regression Model which predicts the mean train value of target """
 
     def __init__(self):
         super().__init__()
@@ -16,6 +17,9 @@ class MeanRegressor(object):
 
 
 class RandomRegressor(object):
+    """ Regression Model which predicts the random number.
+    The number is taken in the range of 1 and 99 quantiles of train target distribution.
+    """
     
     def __init__(self):
         super().__init__()
