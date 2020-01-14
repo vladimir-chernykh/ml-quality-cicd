@@ -8,7 +8,7 @@ DASHBOARD_SCORES_DIR := ./results
 ####### END CHANGABLE #######
 
 ABS_BASE_PATH := $$(realpath .)
-IMAGE         := vovacher/ml-contests-cicd:1.0
+IMAGE         := vovacher/ml-quality-cicd:1.0
 
 TIMESTAMP     := $(shell date +%s%N | cut -b1-13)
 PORT          := 8$$(echo ${TIMESTAMP} | rev | cut -c -3 | rev)
@@ -87,8 +87,8 @@ stop_dashboard:
 
 build:
 	cp dockers/.dockerignore .
-	docker build -f dockers/Dockerfile -t vovacher/ml-contests-cicd:1.0 .
+	docker build -f dockers/Dockerfile -t ${IMAGE} .
 	rm .dockerignore
 
 push:
-	docker push vovacher/ml-contests-cicd:1.0
+	docker push ${IMAGE}
