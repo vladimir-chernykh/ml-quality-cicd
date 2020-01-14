@@ -18,7 +18,6 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
 
 * **Ubuntu**
   * Install `make` command-line tool
-
   ```sh
   apt-get update
   apt-get install build-essential
@@ -36,3 +35,13 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
   * Setup Docker
   
     The most recent installation instructions for Mac OS X can be found [here](https://docs.docker.com/docker-for-mac/install/).
+
+  * Install some of the missing command-line utils
+  
+  ```sh
+  brew install coreutils
+  ```
+  
+  * **Adapt `Makefile`**
+  
+  Change "date" command to "gdate" command in line 13 of Makefile ([here](https://github.com/vladimir-chernykh/ml-quality-cicd/blob/master/Makefile#L13)). It allows Mac users to get UNIX timestamp with the milliseconds tolerance (which is not available with the default "date").
