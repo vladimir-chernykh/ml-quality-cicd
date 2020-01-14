@@ -47,4 +47,4 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
   
   * **Adapt `Makefile`**
   
-  Change "date" command to "gdate" command in line 13 of Makefile ([here](https://github.com/vladimir-chernykh/ml-quality-cicd/blob/master/Makefile#L13)). It allows Mac users to get UNIX timestamp with the milliseconds tolerance (which is not available with the default "date").
+    Change "date" command to "gdate" command in line 13 of Makefile ([here](https://github.com/vladimir-chernykh/ml-quality-cicd/blob/master/Makefile#L13)). It allows Mac users to get UNIX timestamp with the milliseconds tolerance (which is not available with the default "date").
