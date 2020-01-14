@@ -12,10 +12,12 @@ from joblib import Parallel, delayed
 
 
 def ask_endpoint(file, endpoint) -> dict:
-    """ Take the file and send it to the endpoint.
+    """ Takes the file and sends it to the endpoint.
+
     Args:
         file (str or list): Path to the input file or already loaded list of jsons.
         endpoint (str): URL of the endpoint.
+
     Return:
         Response from the endpoint with the results.
         If the error has occurred during processing then the empty dict is returned.
@@ -50,12 +52,13 @@ def ask_endpoint(file, endpoint) -> dict:
 
 
 class Client(object):
-    """ Client for working with the AI Journey API.
+    """ Client for working with REST API web-services.
     It allows to get the answers for all the files in the directory.
     """
 
     def __init__(self, in_dir, out_path, url):
         """ Constructor.
+
         Args:
             in_dir (str): Path to the directory with csv files to process. It is scanned recursively.
             out_path (str): Path to the folder where to store the results.
@@ -83,7 +86,7 @@ class Client(object):
         self._is_ready()
 
     def _is_ready(self):
-        """ Check that the endpoint is ready to receive incoming messages.
+        """ Checks that the endpoint is ready to receive incoming messages.
         """
         current_wait_time = 0
         start_time = time.time()
@@ -107,8 +110,12 @@ class Client(object):
         Each column of the dataframe corresponds to the first-level key in the response json.
         If the json dict is nested then the values of the cells would be dicts themselves.
         In case of failure in one of the requests the corresponding line would contain all NaN.
+
         Args:
             n_jobs (int): number of processes to use for querying.
+
+        Return:
+            Path to folder with report.
         """
 
         def get_one_answer(file):
