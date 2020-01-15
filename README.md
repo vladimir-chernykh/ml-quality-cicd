@@ -53,7 +53,7 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
 
 The system is built using the [Boston House Prices](https://www.kaggle.com/vikrishnan/boston-house-prices) regression dataset as an illustrative toy task. Few models are constructed to solve the problem and their qualities are compared. The solution is shipped as a REST API web-service inside the Docker container.
 
-* [`Makefile`] is a file with shortcuts to control the developed system.
+* [`Makefile`](./Makefile) is a file with shortcuts to control the developed system.
 * [`src`](./src) contains all the necessary code to serve the model as an API endpoint.
 * [`client`](./client) is for the client-side code which provides an easy way to query the server.
 * [`.github/workflows`](./.github/workflows) contains GitHub Actions CI/CD pipeline definitions.
