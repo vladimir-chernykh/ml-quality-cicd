@@ -48,3 +48,16 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
   * **Adapt `Makefile`**
   
     Change "date" command to "gdate" command in line 13 of Makefile ([here](https://github.com/vladimir-chernykh/ml-quality-cicd/blob/master/Makefile#L13)). It allows Mac users to get UNIX timestamp with the milliseconds tolerance (which is not available with the default "date").
+
+## Structure overview
+
+The system is built using [Boston House Prices](https://www.kaggle.com/vikrishnan/boston-house-prices) regression dataset as an illustrative toy task. Few models are constructed to solve the problem and their qualities are compared. The solution is shipped as a REST API web-service inside Docker container.
+
+* [`src`](./src) contains all the necessary code to serve the model as an API endpoint.
+* [`client`](./client) is for the client-side code which provides easy way to query the server.
+* [`.github/workflows`](./.github/workflows) contains GitHub Actions CI/CD pipelines definitions.
+* [`dockers`](./dockers) folder stores Dockerfile for executing all the code (server, client, dashboard).
+* [`notebooks`](./notebooks) contains notebook where data exploration and models building, training, and in-place evaluation are shown.
+* [`models`](./models) stores weights and parameters for all the trained models.
+* [`data`](./data) consists of data files already split into train and validation.
+* [`dashboard`](./dashboard) contains code for visualization of metrics in a form of web dashboard.
