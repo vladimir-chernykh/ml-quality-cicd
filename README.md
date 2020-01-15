@@ -1,12 +1,12 @@
-# Continuous Quality Evaliation of ML models
+# Continuous Quality Evaluation of ML models
 
-In this repo one can find all the necessary code and tools to build a continuous quality evaluation system for ML projects using CI/CD engine of GitHub Actions.
+In this repo, one can find all the necessary code and tools to build a continuous quality evaluation system for ML projects using the CI/CD engine of GitHub Actions.
 
-There is a **[blog post](https://medium.com/@vovacher/continuous-quality-evaluation-for-ml-projects-using-github-actions-78f2f078e38f)** which covers all the concepts and ideas behind the system. The post also contains step-by-step tutorial and instructions on how to use this system and what the components are.
+There is a **[blog post](https://medium.com/@vovacher/continuous-quality-evaluation-for-ml-projects-using-github-actions-78f2f078e38f)** that covers all the concepts and ideas behind the system. The post also contains a step-by-step tutorial and instructions on how to use this system and what the components are.
 
 This README contains:
 * Technical details to make the launch easier
-* High-level overview of the structure
+* A high-level overview of the structure
 
 ## Launch
 
@@ -20,7 +20,7 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
 
   * Setup Docker
   
-    The most recent installation instructions for Ubuntu can be found [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/). For the convenience purposes I would also recommend to enable docker management for non-root users (see [here](https://docs.docker.com/install/linux/linux-postinstall/)). Be careful because it can lead to possible security issues.
+    The most recent installation instructions for Ubuntu can be found [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/). For convenience purposes, I would also recommend enabling docker management for non-root users (see [here](https://docs.docker.com/install/linux/linux-postinstall/)). Be careful because it can lead to possible security issues.
     
   * Install make command-line tool
 
@@ -47,17 +47,17 @@ Instructions for Ubuntu and OSX are below. For Windows, the system might also wo
   
   * **Adapt `Makefile`**
   
-    Change "date" command to "gdate" command in line 13 of Makefile ([here](https://github.com/vladimir-chernykh/ml-quality-cicd/blob/master/Makefile#L13)). It allows Mac users to get UNIX timestamp with the milliseconds tolerance (which is not available with the default "date").
+    Change "date" command to "gdate" command in line 13 of Makefile ([here](https://github.com/vladimir-chernykh/ml-quality-cicd/blob/master/Makefile#L13)). It allows Mac users to get UNIX timestamp with the millisecond tolerance (which is not available with the default "date").
 
 ## Structure overview
 
-The system is built using [Boston House Prices](https://www.kaggle.com/vikrishnan/boston-house-prices) regression dataset as an illustrative toy task. Few models are constructed to solve the problem and their qualities are compared. The solution is shipped as a REST API web-service inside Docker container.
+The system is built using the [Boston House Prices](https://www.kaggle.com/vikrishnan/boston-house-prices) regression dataset as an illustrative toy task. Few models are constructed to solve the problem and their qualities are compared. The solution is shipped as a REST API web-service inside the Docker container.
 
 * [`src`](./src) contains all the necessary code to serve the model as an API endpoint.
-* [`client`](./client) is for the client-side code which provides easy way to query the server.
-* [`.github/workflows`](./.github/workflows) contains GitHub Actions CI/CD pipelines definitions.
+* [`client`](./client) is for the client-side code which provides an easy way to query the server.
+* [`.github/workflows`](./.github/workflows) contains GitHub Actions CI/CD pipeline definitions.
 * [`dockers`](./dockers) folder stores Dockerfile for executing all the code (server, client, dashboard).
-* [`notebooks`](./notebooks) contains notebook where data exploration and models building, training, and in-place evaluation are shown.
+* [`notebooks`](./notebooks) contains a notebook where data exploration and models building, training, and in-place evaluation are shown.
 * [`models`](./models) stores weights and parameters for all the trained models.
 * [`data`](./data) consists of data files already split into train and validation.
-* [`dashboard`](./dashboard) contains code for visualization of metrics in a form of web dashboard.
+* [`dashboard`](./dashboard) contains code for visualization of metrics in the form of a web dashboard.
